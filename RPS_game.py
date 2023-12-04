@@ -31,7 +31,7 @@ def get_computer_action():
 def get_agent_action():
     return GameAction.Paper
 
-def asses_game(computer_action, agent_action):
+def assess_game(computer_action, agent_action):
     if VICTORY_DIC[agent_action] == computer_action:
         return GameResult.Victory
     elif LOSS_DIC[agent_action] == computer_action:
@@ -43,7 +43,7 @@ def asses_game(computer_action, agent_action):
 def play_round():
     computer_action = get_computer_action()
     agent_action = get_agent_action()
-    result = asses_game(computer_action, agent_action)
+    result = assess_game(computer_action, agent_action)
     actions.append((computer_action, agent_action, result))
 
 if __name__ == "__main__":
