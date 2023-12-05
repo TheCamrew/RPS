@@ -35,5 +35,14 @@ def test_agents(agent_action, computer_action, victory_rules, loss_rules):
     print(f"With {victories_perc * 100}% winrate")
     return (victories, lost, ties)
 
-test_agents(RPS_AGENTS["random"], RPS_AGENTS["random"], RPS_VICTORY_RULES, RPS_LOSS_RULES)
+
+def match_agents(agents, victory_rules, loss_rules): 
+    matches = {}
+    for a in agents:
+        matches[a] = {}
+        for b in agents:
+            (victories, lost, ties) = test_agents(agents[a], agents[b], victory_rules, loss_rules)
+            matches[a][b] = (victories, lost, ties)
     
+    return matches
+
