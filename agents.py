@@ -4,8 +4,14 @@ from rps_rules import GameAction as RPSGameAction
 def rps_agent_random(records = []):
     return RPSGameAction(random.randint(0, len(RPSGameAction) - 1))
 
+def rps_agent_rock(records = []):
+    return RPSGameAction.Rock
+
 def rps_agent_paper(records = []):
     return RPSGameAction.Paper
+
+def rps_agent_scissors(records = []):
+    return RPSGameAction.Scissors
 
 def rps_agent_human(records = []):
 
@@ -17,3 +23,11 @@ def rps_agent_human(records = []):
         choice = int(input(f"\nPick a choice ({game_choices_str}): "))
 
     return RPSGameAction(choice)
+
+RPS_AGENTS = {
+    "random" : rps_agent_random,
+    "rock": rps_agent_rock,
+    "paper": rps_agent_paper,
+    "scissors": rps_agent_scissors,
+    "human": rps_agent_human
+}
