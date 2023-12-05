@@ -21,9 +21,9 @@ def play_round(agent_action_func, computer_action_func, victory_rules, loss_rule
     return (agent_action,computer_action, result)
 
 if __name__ == "__main__":
-    from agents import agent_human, agent_random
-    from rps_rules import VICTORY_RULES, LOSS_RULES
-    (a,b,result) = play_round(agent_human, agent_random, VICTORY_RULES, LOSS_RULES)
+    from agents import rps_agent_human, rps_agent_random
+    from rps_rules import VICTORY_RULES, LOSS_RULES, GameAction
+    (a,b,result) = play_round(rps_agent_human, rps_agent_random, VICTORY_RULES, LOSS_RULES)
 
-    print(result.name)
+    print(f"You choose {GameAction(a).name} and oponent picked {GameAction(b).name}. It's a {result.name}")
 
