@@ -29,5 +29,5 @@ RPS_AGENTS = {
     "rock": rps_agent_rock,
     "paper": rps_agent_paper,
     "scissors": rps_agent_scissors,
-    "human": rps_agent_human
+    # "human": rps_agent_human
 }
