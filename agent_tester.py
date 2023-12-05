@@ -1,3 +1,6 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
 from rps_game import GameResult, play_round
 from agents import RPS_AGENTS
 from rps_rules import VICTORY_RULES as RPS_VICTORY_RULES, LOSS_RULES as RPS_LOSS_RULES
@@ -41,8 +44,51 @@ def match_agents(agents, victory_rules, loss_rules):
     for a in agents:
         matches[a] = {}
         for b in agents:
-            (victories, lost, ties) = test_agents(agents[a], agents[b], victory_rules, loss_rules)
-            matches[a][b] = (victories, lost, ties)
+            matches[a][b] = {}
+            (matches[a][b][GameResult.Victory], matches[a][b][GameResult.Loss], matches[a][b][GameResult.Tie]) = test_agents(agents[a], agents[b], victory_rules, loss_rules)
     
     return matches
 
+def run(agents, victory_rules, loss_rules):
+    matches = match_agents(agents, victory_rules, loss_rules)
+
+    display_winrate(matches)
+    display_stacked_bar(matches)
+
+def sum_data(matches, key):
+    return [sum(matches[a][b][key] / (GAMES * len(matches)) for b in matches[a]) for a in matches]
+
+
+def display_stacked_bar(matches):
+    agents = [a for a in matches]
+    victories = sum_data(matches, GameResult.Victory)
+    lost = sum_data(matches, GameResult.Loss)
+    ties = sum_data(matches, GameResult.Tie)
+
+    fig, ax = plt.subplots()
+
+    ax.bar(agents, victories, color = "forestgreen")
+    ax.bar(agents, ties, bottom = victories, color = "khaki")
+    ax.bar(agents, lost, bottom = np.add(victories, ties), color = "lightcoral")
+
+    plt.show()
+
+
+
+def display_winrate(matches):
+    agents = [a for a in matches]
+    wins = sum_data(matches, GameResult.Victory)
+
+    y_pos = np.arange(len(wins))
+
+    plt.bar(y_pos, wins, color = [plt.cm.viridis(sum(ord(c) for c in agent) % 256) for agent in agents])
+
+    plt.xticks(y_pos, agents)
+
+    plt.show()
+
+# def display_stacked_bar(matches):
+#     print(matches)
+
+
+run(RPS_AGENTS, RPS_VICTORY_RULES, RPS_LOSS_RULES)
