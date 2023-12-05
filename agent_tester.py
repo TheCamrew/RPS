@@ -6,18 +6,20 @@ from rps_rules import VICTORY_RULES as RPS_VICTORY_RULES, LOSS_RULES as RPS_LOSS
 GAMES = 10000
 
 def temp(agent_action, computer_action, victory_rules, loss_rules):
+    results = []
     records = []
     for i in range(GAMES):
-        (a,b, result) = play_round(agent_action, computer_action, victory_rules, loss_rules)
-        records.append(result)
+        (a,b, result) = play_round(agent_action, computer_action, victory_rules, loss_rules, records)
+        records.append((a,b, result))
+        results.append(result)
     
-    return records
+    return results
 
-def get_stats(records):
+def get_stats(results):
 
-    victories = records.count(GameResult.Victory)
-    lost = records.count(GameResult.Loss)
-    tie = records.count(GameResult.Tie)
+    victories = results.count(GameResult.Victory)
+    lost = results.count(GameResult.Loss)
+    tie = results.count(GameResult.Tie)
 
     return (victories, lost, tie)
 
@@ -27,8 +29,8 @@ def get_percentages(stats):
 
 
 def test_agents(agent_action, computer_action, victory_rules, loss_rules):
-    records = temp(agent_action, computer_action, victory_rules, loss_rules)
-    (victories, lost, ties) = get_stats(records)
+    results = temp(agent_action, computer_action, victory_rules, loss_rules)
+    (victories, lost, ties) = get_stats(results)
     (victories_perc, lost_perc, ties_perc) = get_percentages((victories, lost, ties))
     print(f"Agent { agent_action.__name__} has {victories} victories, {ties} ties and {lost} lost against {computer_action.__name__}")
     print(f"With {victories_perc * 100}% winrate")
