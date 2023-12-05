@@ -13,7 +13,6 @@ def assess_game(agent_action, computer_action, victory_rules, loss_rules):
     else:
         return GameResult.Tie
 
-
 def play_round(agent_action_func, computer_action_func, victory_rules, loss_rules, records = []):
     computer_action = computer_action_func(records)
     agent_action = agent_action_func(records)
@@ -26,4 +25,3 @@ if __name__ == "__main__":
     (a,b,result) = play_round(rps_agent_human, rps_agent_random, VICTORY_RULES, LOSS_RULES)
 
     print(f"You choose {GameAction(a).name} and oponent picked {GameAction(b).name}. It's a {result.name}")
-
