@@ -8,9 +8,9 @@ Entorno de tareas | Observable| Axentes | Determinista | Episódico | Estático 
 :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
  RPS | Parcial | Multi | Estocástico | Episódico (aunque puede ser considerado Secuencial) | Estático | Discreto | Conocido |
 
-# REQUIREMENTS
+# Requisitos
 
-Python 3.9.4
-Pytest
-Numpy
-Matplotlib
+- Python 3.9.4
+- Pytest
+- Numpy
+- Matplotlib
