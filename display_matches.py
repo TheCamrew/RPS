@@ -81,6 +81,7 @@ def display_stacked_bar(matches, games):
             ax.text(bar.get_x() + bar.get_width() / 2, height / 2 + bar.get_y(), str(value),
                     ha='center', va='center', color='black')
 
+    fig.canvas.manager.set_window_title('Match Results')
 
     plt.show()
 
@@ -140,5 +141,6 @@ def display_matches(matches, games):
     plt.title('Wins Percentage Between Agents')
 
     fig.colorbar(cax)
+    fig.canvas.manager.set_window_title('Wins Percentage Between Agents')
 
     plt.show()
