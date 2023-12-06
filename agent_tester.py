@@ -12,7 +12,7 @@ def play_matches(agent_action, computer_action, victory_rules, loss_rules):
     records = []
     for i in range(GAMES):
         (a,b, result) = play_round(agent_action, computer_action, victory_rules, loss_rules, records)
-        records.append((a,b, result))
+        records.append((a, b, result))
         results.append(result)
     
     return results
@@ -52,7 +52,7 @@ def match_agents(agents, victory_rules, loss_rules):
 def run(agents, victory_rules, loss_rules):
     matches = match_agents(agents, victory_rules, loss_rules)
 
-    display_winrate(matches)
+    # display_winrate(matches)
     display_stacked_bar(matches)
 
 def sum_data(matches, key):
@@ -87,8 +87,8 @@ def display_winrate(matches):
 
     plt.show()
 
-# def display_stacked_bar(matches):
-#     print(matches)
+def display_comparison(matches):
+    print(matches)
 
 
 run(RPS_AGENTS, RPS_VICTORY_RULES, RPS_LOSS_RULES)
