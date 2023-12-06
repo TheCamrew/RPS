@@ -94,9 +94,10 @@ def sum_data(matches):
     return data
 
 def filter_data(matches, num_keys, key):
-    return [(matches[value][key] / (GAMES * (num_keys - 1))) for value in matches]
+    return [round((matches[value][key] / (GAMES * (num_keys - 1))), 3) for value in matches]
 
 def display_winrate(matches):
+    data = sum_data(matches)
 
     agents = data.keys()
 
@@ -121,9 +122,22 @@ def display_stacked_bar(matches):
     fig, ax = plt.subplots()
     fig.autofmt_xdate()
 
-    ax.bar(agents, victories, color = "forestgreen")
-    ax.bar(agents, ties, bottom = victories, color = "khaki")
-    ax.bar(agents, lost, bottom = np.add(victories, ties), color = "lightcoral")
+    bottom = np.zeros(len(agents))
+
+    bars_victories = ax.bar(agents, victories, color="forestgreen", bottom=bottom)
+    bottom += victories
+
+    bars_ties = ax.bar(agents, ties, color="khaki", bottom=bottom)
+    bottom += ties
+
+    bars_lost = ax.bar(agents, lost, color="lightcoral", bottom=bottom)
+
+    for bars, data_values in zip([bars_victories, bars_ties, bars_lost], [victories, ties, lost]):
+        for bar, value in zip(bars, data_values):
+            height = bar.get_height()
+            ax.text(bar.get_x() + bar.get_width() / 2, height / 2 + bar.get_y(), str(value),
+                    ha='center', va='center', color='black')
+
 
     plt.show()
 
@@ -166,7 +180,10 @@ def display_matches(matches):
 
     ax.set_xticks(np.arange(num_agents))
     ax.set_yticks(np.arange(num_agents))
-    ax.set_xticklabels(agents)
+
+    ax.set_xticklabels(agents, rotation=45, ha='right')
+    ax.xaxis.set_ticks_position('bottom')
+
     ax.set_yticklabels(agents)
 
     for i in range(num_agents):
