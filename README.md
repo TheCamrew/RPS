@@ -10,7 +10,7 @@ Entorno de tareas | Observable| Axentes | Determinista | Episódico | Estático 
 
 # Requisitos
 
-- Python 3.9.4
+- Python 3.12.0
 - Pytest
 - Numpy
 - Matplotlib
