@@ -154,8 +154,8 @@ def display_variance(matches, games):
         if match['b'] not in data:            
             data[match['b']] = []
         
-        data[match['a']].append(match[GameResult.Victory])
-        data[match['b']].append(match[GameResult.Loss])
+        data[match['a']].append(match[GameResult.Victory] / games)
+        data[match['b']].append(match[GameResult.Loss] / games)
     
 
     # Calculate means and standard deviations for each category
@@ -168,5 +168,6 @@ def display_variance(matches, games):
     plt.title('Mean and Standard Deviation')
     plt.xlabel('Agents')
     plt.ylabel('Values')
+    plt.ylim(0)
     plt.show()
         
