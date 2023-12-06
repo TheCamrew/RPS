@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from matplotlib.colors import Normalize
 import numpy as np
 
 from rps_game import GameResult, play_round
@@ -54,6 +55,7 @@ def run(agents, victory_rules, loss_rules):
 
     # display_winrate(matches)
     display_stacked_bar(matches)
+    display_matches(matches)
 
 def sum_data(matches, key):
     return [sum(matches[a][b][key] / (GAMES * len(matches)) for b in matches[a]) for a in matches]
@@ -66,6 +68,7 @@ def display_stacked_bar(matches):
     ties = sum_data(matches, GameResult.Tie)
 
     fig, ax = plt.subplots()
+    fig.autofmt_xdate()
 
     ax.bar(agents, victories, color = "forestgreen")
     ax.bar(agents, ties, bottom = victories, color = "khaki")
@@ -73,22 +76,46 @@ def display_stacked_bar(matches):
 
     plt.show()
 
-
-
 def display_winrate(matches):
     agents = [a for a in matches]
-    wins = sum_data(matches, GameResult.Victory)
+    victories = sum_data(matches, GameResult.Victory)
 
-    y_pos = np.arange(len(wins))
+    fig, ax = plt.subplots()
+    fig.autofmt_xdate()
 
-    plt.bar(y_pos, wins, color = [plt.cm.viridis(sum(ord(c) for c in agent) % 256) for agent in agents])
-
-    plt.xticks(y_pos, agents)
+    ax.bar(agents, victories, color = "forestgreen")
 
     plt.show()
 
-def display_comparison(matches):
-    print(matches)
+def display_matches(matches):
+    
+    agents = list(matches.keys())
+
+    wins = np.zeros((len(agents), len(agents)))
+
+    for i, agent1 in enumerate(agents):
+        for j, agent2 in enumerate(agents):
+            if agent2 in matches[agent1]:
+                wins[i, j] = matches[agent1][agent2][GameResult.Victory] / GAMES
+
+    fig, ax = plt.subplots()
+
+    cax = ax.imshow(wins, cmap='RdYlGn', norm = Normalize(vmin=0, vmax=1))
+
+    ax.set_xticks(np.arange(len(agents)))
+    ax.set_yticks(np.arange(len(agents)))
+    ax.set_xticklabels(agents)
+    ax.set_yticklabels(agents)
+
+    plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
+
+    for i in range(len(agents)):
+        for j in range(len(agents)):
+                ax.text(j, i, "{:.3f}".format(wins[i, j]), ha="center", va="center", color="w")
+
+    plt.colorbar(cax)
+
+    plt.show()
 
 
 run(RPS_AGENTS, RPS_VICTORY_RULES, RPS_LOSS_RULES)
