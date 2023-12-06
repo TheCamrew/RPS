@@ -73,7 +73,7 @@ def rps_agent_win_stay_lose_shift(records=[]):
         if result == GameResult.Victory:
             return b
         elif result == GameResult.Loss:
-            return RPS_VICTORY_RULES[b][0]
+            return RPS_LOSS_RULES[b][0]
     return rps_agent_random()
 
 def rps_agent_alternate(records=[]):
@@ -114,6 +114,7 @@ RPS_AGENTS = {
     "alternate": rps_agent_alternate,
     "probabilistic": rps_agent_probabilistic,
     "cycle": rps_agent_cycle,
-    "adv2": rps_agent_adv2
+    "adv2": rps_agent_adv2,
+    "counter_opponent": rps_agent_counter_opponent
     # "human": rps_agent_human
 }
