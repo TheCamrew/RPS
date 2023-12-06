@@ -1,5 +1,5 @@
 from rps_game import GameResult, play_round
-from display_matches import display_stacked_bar, display_winrate, display_matches
+from display_matches import display_stacked_bar, display_matches, display_variance
 
 def get_stats(results):
 
@@ -54,6 +54,6 @@ def match_agents(agents, victory_rules, loss_rules, games):
 def run(agents, victory_rules, loss_rules, games):
     matches = match_agents(agents, victory_rules, loss_rules, games)
     
-    # display_winrate(matches, games)
     display_stacked_bar(matches, games)
     display_matches(matches, games)
+    display_variance(matches, games)

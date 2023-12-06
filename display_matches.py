@@ -37,8 +37,6 @@ def filter_data(matches, num_keys, key, games):
 
     return [round((matches[value][key] / (games * (num_keys - 1))), 3) for value in matches]
 
-
-
 def display_winrate(matches, games):
     data = sum_data(matches)
 
@@ -55,6 +53,7 @@ def display_winrate(matches, games):
     plt.show()
 
 def display_stacked_bar(matches, games):
+
     data = sum_data(matches)
     agents = data.keys()
 
@@ -144,3 +143,30 @@ def display_matches(matches, games):
     fig.canvas.manager.set_window_title('Wins Percentage Between Agents')
 
     plt.show()
+
+def display_variance(matches, games):
+
+    data = {}
+
+    for match in matches:
+        if match['a'] not in data:            
+            data[match['a']] = []
+        if match['b'] not in data:            
+            data[match['b']] = []
+        
+        data[match['a']].append(match[GameResult.Victory])
+        data[match['b']].append(match[GameResult.Loss])
+    
+
+    # Calculate means and standard deviations for each category
+    means = [np.mean(values) for values in data.values()]
+    std_devs = [np.std(values) for values in data.values()]
+
+    # Create a bar chart with error bars
+    plt.bar(range(len(data)), means, yerr=std_devs, align='center', alpha=0.7)
+    plt.xticks(range(len(data)), list(data.keys()), rotation=45, ha="right")
+    plt.title('Mean and Standard Deviation')
+    plt.xlabel('Agents')
+    plt.ylabel('Values')
+    plt.show()
+        
