@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
-from matplotlib.colors import Normalize
+from matplotlib.patches import Rectangle
+
 import numpy as np
 
 from rps_game import GameResult, play_round
@@ -7,16 +8,6 @@ from agents import RPS_AGENTS
 from rps_rules import VICTORY_RULES as RPS_VICTORY_RULES, LOSS_RULES as RPS_LOSS_RULES
 
 GAMES = 10000
-
-def play_matches(agent_action, computer_action, victory_rules, loss_rules):
-    results = []
-    records = []
-    for i in range(GAMES):
-        (a,b, result) = play_round(agent_action, computer_action, victory_rules, loss_rules, records)
-        records.append((a, b, result))
-        results.append(result)
-    
-    return results
 
 def get_stats(results):
 
@@ -27,45 +18,105 @@ def get_stats(results):
     return (victories, lost, tie)
 
 def get_percentages(stats):
-    (victories, lost, tie)  = stats
+    victories, lost, tie  = stats
     return (victories / GAMES, lost / GAMES, tie / GAMES)
 
+def play_matches(agent_action, computer_action, victory_rules, loss_rules):
+    results = []
+    records = []
+    for i in range(GAMES):
+        (a,b, result) = play_round(agent_action, computer_action, victory_rules, loss_rules, records)
+        records.append((a, b, result))
+        results.append(result)
+    
+    print(len(records))
+    return results
 
 def test_agents(agent_action, computer_action, victory_rules, loss_rules):
     results = play_matches(agent_action, computer_action, victory_rules, loss_rules)
-    (victories, lost, ties) = get_stats(results)
-    (victories_perc, lost_perc, ties_perc) = get_percentages((victories, lost, ties))
+    victories, lost, ties = get_stats(results)
+    victories_perc, _, _ = get_percentages((victories, lost, ties))
     print(f"Agent { agent_action.__name__} has {victories} victories, {ties} ties and {lost} lost against {computer_action.__name__}")
     print(f"With {victories_perc * 100}% winrate")
     return (victories, lost, ties)
 
 
 def match_agents(agents, victory_rules, loss_rules): 
-    matches = {}
-    for a in agents:
-        matches[a] = {}
-        for b in agents:
-            matches[a][b] = {}
-            (matches[a][b][GameResult.Victory], matches[a][b][GameResult.Loss], matches[a][b][GameResult.Tie]) = test_agents(agents[a], agents[b], victory_rules, loss_rules)
-    
+    matches = []
+
+    for i, a in enumerate(agents):
+        for j in range(i, len(agents)):
+            b = list(agents.keys())[j]
+            if a != b:
+                victories,lost, ties = test_agents(agents[a], agents[b], victory_rules, loss_rules)
+                matches.append({
+                    'a':a,
+                    'b':b,
+                    GameResult.Victory: victories    ,
+                    GameResult.Loss: lost,
+                    GameResult.Tie: ties   
+                }) 
+
     return matches
 
 def run(agents, victory_rules, loss_rules):
     matches = match_agents(agents, victory_rules, loss_rules)
-
+    
     # display_winrate(matches)
     display_stacked_bar(matches)
     display_matches(matches)
 
-def sum_data(matches, key):
-    return [sum(matches[a][b][key] / (GAMES * len(matches)) for b in matches[a]) for a in matches]
+def sum_data(matches):
+    data = {}
 
+    for match in matches:
+        if match['a'] in data:
+            data[match['a']][GameResult.Victory] += match[GameResult.Victory]
+            data[match['a']][GameResult.Loss] += match[GameResult.Loss]
+            data[match['a']][GameResult.Tie] += match[GameResult.Tie]
+        else:
+            data[match['a']] = {}
+            data[match['a']][GameResult.Victory] = match[GameResult.Victory]
+            data[match['a']][GameResult.Loss] = match[GameResult.Loss]
+            data[match['a']][GameResult.Tie] = match[GameResult.Tie]
+        
+        if match['b'] in data:
+            data[match['b']][GameResult.Victory] += match[GameResult.Loss]
+            data[match['b']][GameResult.Loss] += match[GameResult.Victory]
+            data[match['b']][GameResult.Tie] += match[GameResult.Tie]
+        else:
+            data[match['b']] = {}
+            data[match['b']][GameResult.Victory] = match[GameResult.Loss]
+            data[match['b']][GameResult.Loss] = match[GameResult.Victory]
+            data[match['b']][GameResult.Tie] = match[GameResult.Tie]
+
+
+    return data
+
+def filter_data(matches, num_keys, key):
+    return [(matches[value][key] / (GAMES * (num_keys - 1))) for value in matches]
+
+def display_winrate(matches):
+
+    agents = data.keys()
+
+    victories = filter_data(data, len(agents), GameResult.Victory)
+   
+
+    fig, ax = plt.subplots()
+    fig.autofmt_xdate()
+
+    ax.bar(agents, victories, color = "forestgreen")
+
+    plt.show()
 
 def display_stacked_bar(matches):
-    agents = [a for a in matches]
-    victories = sum_data(matches, GameResult.Victory)
-    lost = sum_data(matches, GameResult.Loss)
-    ties = sum_data(matches, GameResult.Tie)
+    data = sum_data(matches)
+    agents = data.keys()
+
+    victories = filter_data(data, len(agents), GameResult.Victory)
+    ties = filter_data(data, len(agents), GameResult.Tie)
+    lost = filter_data(data, len(agents), GameResult.Loss)
 
     fig, ax = plt.subplots()
     fig.autofmt_xdate()
@@ -76,46 +127,64 @@ def display_stacked_bar(matches):
 
     plt.show()
 
-def display_winrate(matches):
-    agents = [a for a in matches]
-    victories = sum_data(matches, GameResult.Victory)
-
-    fig, ax = plt.subplots()
-    fig.autofmt_xdate()
-
-    ax.bar(agents, victories, color = "forestgreen")
-
-    plt.show()
 
 def display_matches(matches):
+
+    agents = sorted(list(set([item['a'] for item in matches] + [item['b'] for item in matches])))
+
+    extended_data = matches.copy()
+
+    for data in matches:
+        extended_data.append({
+            'a': data['b'], 
+            'b': data['a'], 
+            GameResult.Victory: data[GameResult.Loss], 
+            GameResult.Loss: data[GameResult.Victory], 
+            GameResult.Tie: data[GameResult.Tie]
+        })
     
-    agents = list(matches.keys())
+    num_agents = len(agents)
+    wins_matrix = np.full((num_agents, num_agents), -1, dtype=float)
 
-    wins = np.zeros((len(agents), len(agents)))
+    for item in extended_data:
+        i = agents.index(item['a'])
+        j = agents.index(item['b'])
 
-    for i, agent1 in enumerate(agents):
-        for j, agent2 in enumerate(agents):
-            if agent2 in matches[agent1]:
-                wins[i, j] = matches[agent1][agent2][GameResult.Victory] / GAMES
+        if wins_matrix[i, j] < 0:
+            wins_matrix[i, j] = 0
+        if wins_matrix[j, i] < 0:
+            wins_matrix[j, i] = 0
 
+        wins_matrix[i, j] += item[GameResult.Victory]
+        wins_matrix[j, i] += item[GameResult.Loss]
+
+    wins_matrix = wins_matrix / (GAMES * 2)
+        
     fig, ax = plt.subplots()
 
-    cax = ax.imshow(wins, cmap='RdYlGn', norm = Normalize(vmin=0, vmax=1))
+    cax = ax.matshow(wins_matrix, cmap='RdYlGn', vmin=0, vmax=1)
 
-    ax.set_xticks(np.arange(len(agents)))
-    ax.set_yticks(np.arange(len(agents)))
+    ax.set_xticks(np.arange(num_agents))
+    ax.set_yticks(np.arange(num_agents))
     ax.set_xticklabels(agents)
     ax.set_yticklabels(agents)
 
-    plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
+    for i in range(num_agents):
+        for j in range(num_agents):
+            if wins_matrix[i, j] >= 0:
+                ax.text(j, i, f"{wins_matrix[i, j]:.3f}", ha='center', va='center', color='black')
+            else:
+                ax.add_patch(Rectangle((j - 0.5, i - 0.5), 1, 1, fill=True, edgecolor='black', facecolor='grey'))
+         
+    plt.xlabel('Opponent')
+    plt.ylabel('Agent')
+    plt.title('Wins Between AI Agents')
 
-    for i in range(len(agents)):
-        for j in range(len(agents)):
-                ax.text(j, i, "{:.3f}".format(wins[i, j]), ha="center", va="center", color="w")
-
-    plt.colorbar(cax)
+    fig.colorbar(cax)
 
     plt.show()
 
 
+
 run(RPS_AGENTS, RPS_VICTORY_RULES, RPS_LOSS_RULES)
+
