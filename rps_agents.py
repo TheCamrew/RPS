@@ -1,20 +1,21 @@
 import random
 from rps_rules import GameAction as RPSGameAction, VICTORY_RULES as RPS_VICTORY_RULES, LOSS_RULES as RPS_LOSS_RULES
 from rps_game import GameResult
+from agent_tester import parse_match_by_player
 
-def rps_agent_random(records = []):
+def rps_agent_random(records = [], player = None):
     return RPSGameAction(random.randint(0, len(RPSGameAction) - 1))
 
-def rps_agent_rock(records = []):
+def rps_agent_rock(records = [], player = None):
     return RPSGameAction.Rock
 
-def rps_agent_paper(records = []):
+def rps_agent_paper(records = [], player = None):
     return RPSGameAction.Paper
 
-def rps_agent_scissors(records = []):
+def rps_agent_scissors(records = [], player = None):
     return RPSGameAction.Scissors
 
-def rps_agent_human(records = []):
+def rps_agent_human(records = [], player = None):
 
     length = len(RPSGameAction)
     choice = -1
@@ -25,17 +26,17 @@ def rps_agent_human(records = []):
 
     return RPSGameAction(choice)
 
-def rps_agent_counter_opponent(records=[]):
+def rps_agent_counter_opponent(records=[], player = None):
     if len(records) > 0:
-        (_, b, _) = records[-1]
+        _, b, _ = parse_match_by_player(records[-1], player)
         return RPS_LOSS_RULES[b][0]
     return rps_agent_random()
 
-def rps_agent_play_oponent_unused(records = []):
+def rps_agent_play_oponent_unused(records = [], player = None):
     out = RPSGameAction.Paper
     if len(records) > 1:
-        (_, b, _) = records[-1]
-        (_, b2, _) = records[-2]
+        _, b, _ = parse_match_by_player(records[-1], player)
+        _, b2, _ = parse_match_by_player(records[-2], player)
 
         choices = [game_action for game_action in RPSGameAction]
 
@@ -48,10 +49,10 @@ def rps_agent_play_oponent_unused(records = []):
         
     return out
 
-def rps_agent_adv(records = []):
+def rps_agent_adv(records = [], player = None):
     out = RPSGameAction.Paper
     if len(records) > 1:
-        (a, b, result) = records[-1]
+        a, b, result = parse_match_by_player(records[-1], player)
         if result == GameResult.Tie:
             out = RPSGameAction(random.randint(0, len(RPSGameAction) - 1))
         elif result == GameResult.Victory:
@@ -61,45 +62,47 @@ def rps_agent_adv(records = []):
 
     return out
 
-def rps_agent_copy_opponent(records=[]):
+def rps_agent_copy_opponent(records=[], player = None):
     if len(records) > 0:
-        (_, b, _) = records[-1]
+        _, b, _ = parse_match_by_player(records[-1], player)
         return b
     return rps_agent_random()
 
-def rps_agent_win_stay_lose_shift(records=[]):
+def rps_agent_win_stay_lose_shift(records=[], player = None):
     if len(records) > 0:
-        (_, b, result) = records[-1]
+        _, b, result = parse_match_by_player(records[-1], player)
         if result == GameResult.Victory:
             return b
         elif result == GameResult.Loss:
             return RPS_LOSS_RULES[b][0]
     return rps_agent_random()
 
-def rps_agent_alternate(records=[]):
+def rps_agent_alternate(records=[], player = None):
     if len(records) % 2 == 0:
         return RPSGameAction.Rock
     else:
         return RPSGameAction.Paper if len(records) % 4 == 1 else RPSGameAction.Scissors
 
-def rps_agent_probabilistic(records=[]):
+def rps_agent_probabilistic(records=[], player = None):
     choices = [RPSGameAction.Rock, RPSGameAction.Paper, RPSGameAction.Scissors]
     weights = [0.4, 0.3, 0.3] 
     return random.choices(choices, weights=weights)[0]
 
-def rps_agent_cycle(records=[]):
+def rps_agent_cycle(records=[], player = None):
     if len(records) > 0:
-        previous_move = records[-1][1]
+        previous_move = parse_match_by_player(records[-1], player)[1]
         return RPSGameAction((previous_move.value + 1) % len(RPSGameAction))
     return rps_agent_random()
 
-def rps_agent_adv2(records = []):
+def rps_agent_adv2(records = [], player = None):
     out = RPSGameAction.Paper
     leng = len(records)
     if leng > 0:
-        (_, b, _) = records[-leng]
+        _, b, _ = parse_match_by_player(records[-leng], player)
         out = RPS_LOSS_RULES[b][0]
     return out
+
+
 
 
 RPS_AGENTS = {
@@ -115,6 +118,6 @@ RPS_AGENTS = {
     "probabilistic": rps_agent_probabilistic,
     "cycle": rps_agent_cycle,
     "adv2": rps_agent_adv2,
-    "counter_opponent": rps_agent_counter_opponent
+    "counter_opponent": rps_agent_counter_opponent,
     # "human": rps_agent_human
 }

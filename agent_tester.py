@@ -1,6 +1,20 @@
 from rps_game import GameResult, play_round
 from display_matches import display_stacked_bar, display_matches, display_variance
 
+def parse_match_by_player(match, player):
+    if player == 1:
+        a, b, r = match
+        
+        if r == GameResult.Victory:
+            r = GameResult.Loss
+        elif r == GameResult.Loss:
+            r = GameResult.Victory
+
+        match = (b, a, r)
+
+    return match
+    
+
 def get_stats(results):
 
     victories = results.count(GameResult.Victory)
@@ -21,7 +35,6 @@ def play_matches(agent_action, computer_action, victory_rules, loss_rules, games
         records.append((a, b, result))
         results.append(result)
     
-    print(len(records))
     return results
 
 def test_agents(agent_action, computer_action, victory_rules, loss_rules, games):
