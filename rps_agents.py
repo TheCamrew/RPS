@@ -102,7 +102,36 @@ def rps_agent_adv2(records = [], player = None):
         out = RPS_LOSS_RULES[b][0]
     return out
 
+def rps_agent_predict(records = [], player = None):
 
+    out = RPSGameAction.Paper
+    leng = len(records)
+
+    if leng > 0:
+        last_tuple = records[-1]
+
+        first_occ = None
+        for i in range(leng - 1):
+            curr_a, curr_b, _ = records[i]
+            last_a, last_b, _ = last_tuple
+
+            if last_a == curr_a and last_b == curr_b:
+                first_occ = i
+                break
+        
+        if first_occ is None or first_occ == leng:
+            out = rps_agent_random()
+        else:
+            a, b, res = parse_match_by_player(records[first_occ + 1], player)
+
+            if res == GameResult.Victory:
+                out = a
+            elif res == GameResult.Loss:
+                out = RPS_LOSS_RULES[b][0]
+            else:
+                out = RPS_LOSS_RULES[b][0]
+
+    return out
 
 
 RPS_AGENTS = {
@@ -119,5 +148,6 @@ RPS_AGENTS = {
     "cycle": rps_agent_cycle,
     "adv2": rps_agent_adv2,
     "counter_opponent": rps_agent_counter_opponent,
+    "predict": rps_agent_predict,
     # "human": rps_agent_human
 }
