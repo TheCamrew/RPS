@@ -18,11 +18,11 @@ Entorno de tareas | Observable| Axentes | Determinista | Episódico | Estático 
 
 ## Conclusiones
 
-El agente elegido que busca predecir al oponente es altamente efectivo contra otros agentes. 
+El agente elegido, que busca predecir al oponente, es altamente efectivo contra otros agentes.
 
 ![](./doc/full_view.png)
 
-De todas formas este juego es episódico. En el momento en el que comenzamos a usar estrategias se vuelve secuencial. Un alto numero de victorias por parte de un agente en este test solo implica que, es mejor que el resto de los agentes contra los que compite, y no el mejor. La mejor estrategia será siempre elegir de forma aleatoria para maximizar los resultados, ya que no seguiremos un patron que se pueda explotar como se demuestra al enfrentarla contra la estrategía de predicciones y porque mantiene la varianza mas baja.
+De todas formas, este juego es episódico. En el momento en que comenzamos a usar algún tipo de estrategia, se vuelve secuencial. Un alto número de victorias por parte de un agente en este test solo implica que es mejor que el resto de los agentes contra los que compite, y no necesariamente el mejor. La estrategia más óptima seguirá siendo elegir de forma aleatoria para maximizar los resultados. De esta manera, evitamos patrones predecibles que puedan ser explotados, como se demuestra al enfrentarla contra la estrategia de predicciones y porque mantiene la varianza más baja.
 
 ![](./doc/random_vs_predict.png)
 ![](./doc/variance.png)
