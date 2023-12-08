@@ -82,6 +82,10 @@ def display_stacked_bar(matches, games):
 
     fig.canvas.manager.set_window_title('Match Results')
 
+    plt.title('Victories, Ties and Lost')
+    plt.xlabel('Agents')
+    plt.ylabel('Values')
+
     plt.show()
 
 def display_matches(matches, games):
