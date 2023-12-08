@@ -16,6 +16,12 @@ Entorno de tareas | Observable| Axentes | Determinista | Episódico | Estático 
 :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
  RPS | Parcial | Multi | Estocástico | [Episódico](#conclusiones) | Estático | Discreto | Conocido |
 
+## Estructura del agente
+
+
+## Extensión
+
+
 ## Conclusiones
 
 El agente elegido, que busca predecir al oponente, es altamente efectivo contra otros agentes.
