@@ -111,11 +111,9 @@ def rps_agent_predict(records = [], player = None):
         last_tuple = records[-1]
 
         first_occ = None
-        for i in range(leng - 1):
-            curr_a, curr_b, _ = records[i]
-            last_a, last_b, _ = last_tuple
+        for i in reversed(range(leng - 1)):
 
-            if last_a == curr_a and last_b == curr_b:
+            if records[i] == last_tuple:
                 first_occ = i
                 break
         
