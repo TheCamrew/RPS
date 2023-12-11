@@ -1,20 +1,26 @@
 import random
-from rps_rules import GameAction as GameAction, VICTORY_RULES, LOSS_RULES 
+from rpsls_rules import GameAction, VICTORY_RULES, LOSS_RULES
 from game import GameResult, parse_match_by_player
 
-def rps_agent_random(records = [], player = None):
+def rpsls_agent_random(records = [], player = None):
     return GameAction(random.randint(0, len(GameAction) - 1))
 
-def rps_agent_rock(records = [], player = None):
+def rpsls_agent_rock(records = [], player = None):
     return GameAction.Rock
 
-def rps_agent_paper(records = [], player = None):
+def rpsls_agent_paper(records = [], player = None):
     return GameAction.Paper
 
-def rps_agent_scissors(records = [], player = None):
+def rpsls_agent_scissors(records = [], player = None):
     return GameAction.Scissors
 
-def rps_agent_human(records = [], player = None):
+def rpsls_agent_lizard(records = [], player = None):
+    return GameAction.Lizard
+
+def rpsls_agent_spock(records = [], player = None):
+    return GameAction.Spock
+
+def rpsls_agent_human(records = [], player = None):
 
     length = len(GameAction)
     choice = -1
@@ -25,13 +31,13 @@ def rps_agent_human(records = [], player = None):
 
     return GameAction(choice)
 
-def rps_agent_counter_opponent(records=[], player = None):
+def rpsls_agent_counter_opponent(records=[], player = None):
     if len(records) > 0:
         _, b, _ = parse_match_by_player(records[-1], player)
         return LOSS_RULES[b][0]
-    return rps_agent_random()
+    return rpsls_agent_random()
 
-def rps_agent_play_oponent_unused(records = [], player = None):
+def rpsls_agent_play_oponent_unused(records = [], player = None):
     out = GameAction.Paper
     if len(records) > 1:
         _, b, _ = parse_match_by_player(records[-1], player)
@@ -48,7 +54,7 @@ def rps_agent_play_oponent_unused(records = [], player = None):
         
     return out
 
-def rps_agent_adv(records = [], player = None):
+def rpsls_agent_adv(records = [], player = None):
     out = GameAction.Paper
     if len(records) > 1:
         a, b, result = parse_match_by_player(records[-1], player)
@@ -61,22 +67,22 @@ def rps_agent_adv(records = [], player = None):
 
     return out
 
-def rps_agent_copy_opponent(records=[], player = None):
+def rpsls_agent_copy_opponent(records=[], player = None):
     if len(records) > 0:
         _, b, _ = parse_match_by_player(records[-1], player)
         return b
-    return rps_agent_random()
+    return rpsls_agent_random()
 
-def rps_agent_win_stay_lose_shift(records=[], player = None):
+def rpsls_agent_win_stay_lose_shift(records=[], player = None):
     if len(records) > 0:
         _, b, result = parse_match_by_player(records[-1], player)
         if result == GameResult.Victory:
             return b
         elif result == GameResult.Loss:
             return LOSS_RULES[b][0]
-    return rps_agent_random()
+    return rpsls_agent_random()
 
-def rps_agent_alternate(records=[], player = None):
+def rpsls_agent_alternate(records=[], player = None):
     out = GameAction(0)
 
     leng = len(records)
@@ -86,18 +92,19 @@ def rps_agent_alternate(records=[], player = None):
     
     return out
 
-def rps_agent_probabilistic(records=[], player = None):
+
+def rpsls_agent_probabilistic(records=[], player = None):
     choices = list(GameAction)
-    weights = [0.4, 0.3, 0.3] 
+    weights = [0.4, 0.3, 0.3, 0.6, 0.2] 
     return random.choices(choices, weights=weights)[0]
 
-def rps_agent_cycle(records=[], player = None):
+def rpsls_agent_cycle(records=[], player = None):
     if len(records) > 0:
         previous_move = parse_match_by_player(records[-1], player)[1]
         return GameAction((previous_move.value + 1) % len(GameAction))
-    return rps_agent_random()
+    return rpsls_agent_random()
 
-def rps_agent_adv2(records = [], player = None):
+def rpsls_agent_adv2(records = [], player = None):
     out = GameAction.Paper
     leng = len(records)
     if leng > 0:
@@ -105,7 +112,7 @@ def rps_agent_adv2(records = [], player = None):
         out = LOSS_RULES[b][0]
     return out
 
-def rps_agent_predict(records = [], player = None):
+def rpsls_agent_predict(records = [], player = None):
 
     out = GameAction.Paper
     leng = len(records)
@@ -121,7 +128,7 @@ def rps_agent_predict(records = [], player = None):
                 break
         
         if first_occ is None or first_occ == leng:
-            out = rps_agent_random()
+            out = rpsls_agent_random()
         else:
             a, b, res = parse_match_by_player(records[first_occ + 1], player)
 
@@ -135,20 +142,22 @@ def rps_agent_predict(records = [], player = None):
     return out
 
 
-RPS_AGENTS = {
-    "random" : rps_agent_random,
-    "rock": rps_agent_rock,
-    "paper": rps_agent_paper,
-    "scissors": rps_agent_scissors,
-    "play_oponent_unused": rps_agent_play_oponent_unused,
-    "adv": rps_agent_adv,
-    "copy_opponent": rps_agent_copy_opponent,
-    "win_stay_lose_shift": rps_agent_win_stay_lose_shift,
-    "alternate": rps_agent_alternate,
-    "probabilistic": rps_agent_probabilistic,
-    "cycle": rps_agent_cycle,
-    "adv2": rps_agent_adv2,
-    "counter_opponent": rps_agent_counter_opponent,
-    "predict": rps_agent_predict,
-    # "human": rps_agent_human
+RPSLS_AGENTS = {
+    "random" : rpsls_agent_random,
+    "rock": rpsls_agent_rock,
+    "paper": rpsls_agent_paper,
+    "scissors": rpsls_agent_scissors,
+    "lizard": rpsls_agent_lizard,
+    "spok": rpsls_agent_spock,
+    "play_oponent_unused": rpsls_agent_play_oponent_unused,
+    "adv": rpsls_agent_adv,
+    "copy_opponent": rpsls_agent_copy_opponent,
+    "win_stay_lose_shift": rpsls_agent_win_stay_lose_shift,
+    "alternate": rpsls_agent_alternate,
+    "probabilistic": rpsls_agent_probabilistic,
+    "cycle": rpsls_agent_cycle,
+    "adv2": rpsls_agent_adv2,
+    "counter_opponent": rpsls_agent_counter_opponent,
+    "predict": rpsls_agent_predict,
+    # "human": rpsls_agent_human
 }

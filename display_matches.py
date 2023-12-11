@@ -3,7 +3,7 @@ from matplotlib.patches import Rectangle
 
 import numpy as np
 
-from rps_game import GameResult
+from game import GameResult
 
 
 def sum_data(matches):
