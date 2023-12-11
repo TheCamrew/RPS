@@ -44,3 +44,5 @@ El agente de predicción es igual de eficaz que en el modo de juego normal
 - Pytest
 - Numpy
 - Matplotlib
+
+![](./doc/img.jpg)
