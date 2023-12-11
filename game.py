@@ -4,6 +4,19 @@ class GameResult(IntEnum):
     Loss = 1
     Tie = 2
 
+def parse_match_by_player(match, player):
+    if player == 1:
+        a, b, r = match
+        
+        if r == GameResult.Victory:
+            r = GameResult.Loss
+        elif r == GameResult.Loss:
+            r = GameResult.Victory
+
+        match = (b, a, r)
+
+    return match
+
 def assess_game(agent_action, computer_action, victory_rules, loss_rules):
     if computer_action in victory_rules[agent_action]:
         return GameResult.Victory

@@ -7,7 +7,7 @@ Este codigo permite enfrentar multiples agentes inteligentes y obtener graficos 
 ## Uso
 
 - Añadir agentes en el archivo rps_agents.py y agregarlos en RPS_AGENTS
-- Establecer las reglas y el numero de partidas en main
+- Elegir modo de juego y numero de partidas al ejecutar el main
 - Ejecutar
 
 ## Entorno de tareas
@@ -17,9 +17,6 @@ Entorno de tareas | Observable| Axentes | Determinista | Episódico | Estático 
  RPS | Parcial | Multi | [Estocástico](#conclusiones) | [Episódico](#conclusiones) | Estático | Discreto | Conocido |
 
 ## Estructura del agente
-
-
-## Extensión
 
 
 ## Conclusiones
@@ -32,6 +29,14 @@ De todas formas, este juego es episódico y estocástico. En el momento en que a
 
 ![](./doc/random_vs_predict.png)
 ![](./doc/variance.png)
+
+## Extensión
+
+- Añadir agentes en el archivo rpsls_agents.py y agregarlos en RPSLS_AGENTS
+- Elegir modo de juego y numero de partidas al ejecutar el main
+- Ejecutar
+
+El agente de predicción es igual de eficaz que en el modo de juego normal
 
 ## Requisitos
 

@@ -1,5 +1,5 @@
 import pytest
-from rps_game import GameResult, assess_game
+from game import GameResult, assess_game
 from rps_rules import GameAction, VICTORY_RULES, LOSS_RULES
 
 

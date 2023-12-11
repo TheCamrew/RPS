@@ -1,4 +1,4 @@
-from rps_game import GameResult, play_round
+from game import GameResult, play_round
 from display_matches import display_stacked_bar, display_matches, display_variance    
 
 def get_stats(results):
@@ -20,7 +20,7 @@ def play_matches(agent_action, computer_action, victory_rules, loss_rules, games
         (a,b, result) = play_round(agent_action, computer_action, victory_rules, loss_rules, records)
         records.append((a, b, result))
         results.append(result)
-    
+        
     return results
 
 def test_agents(agent_action, computer_action, victory_rules, loss_rules, games):
