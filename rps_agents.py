@@ -1,7 +1,19 @@
 import random
 from rps_rules import GameAction as RPSGameAction, VICTORY_RULES as RPS_VICTORY_RULES, LOSS_RULES as RPS_LOSS_RULES
 from rps_game import GameResult
-from agent_tester import parse_match_by_player
+
+def parse_match_by_player(match, player):
+    if player == 1:
+        a, b, r = match
+        
+        if r == GameResult.Victory:
+            r = GameResult.Loss
+        elif r == GameResult.Loss:
+            r = GameResult.Victory
+
+        match = (b, a, r)
+
+    return match
 
 def rps_agent_random(records = [], player = None):
     return RPSGameAction(random.randint(0, len(RPSGameAction) - 1))
