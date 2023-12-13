@@ -32,9 +32,9 @@ def test_rock_loses():
     '''
     Rock pierde con Paper 
     '''
-    assert GameResult.Victory == assess_game(
-        agent_action=GameAction.Paper,
-        computer_action=GameAction.Rock, 
+    assert GameResult.Loss == assess_game(
+        agent_action=GameAction.Rock,
+        computer_action=GameAction.Paper, 
         victory_rules=VICTORY_RULES,
         loss_rules=LOSS_RULES)
 
@@ -43,9 +43,9 @@ def test_rock_wins():
     '''
     Rock gana a Scissors
     '''
-    assert GameResult.Loss == assess_game(
-        agent_action=GameAction.Scissors,
-        computer_action=GameAction.Rock, 
+    assert GameResult.Victory == assess_game(
+        agent_action=GameAction.Rock,
+        computer_action=GameAction.Scissors, 
         victory_rules=VICTORY_RULES,
         loss_rules=LOSS_RULES)
 
@@ -54,9 +54,9 @@ def test_paper_loses():
     '''
     Paper pierde con Scissors
     '''
-    assert GameResult.Victory == assess_game(
-        agent_action=GameAction.Scissors,
-        computer_action=GameAction.Paper, 
+    assert GameResult.Loss == assess_game(
+        agent_action=GameAction.Paper,
+        computer_action=GameAction.Scissors, 
         victory_rules=VICTORY_RULES,
         loss_rules=LOSS_RULES)
 
@@ -65,9 +65,9 @@ def test_paper_wins():
     '''
     Paper gana a Rock
     '''
-    assert GameResult.Loss == assess_game(
-        agent_action=GameAction.Rock,
-        computer_action=GameAction.Paper, 
+    assert GameResult.Victory == assess_game(
+        agent_action=GameAction.Paper,
+        computer_action=GameAction.Rock, 
         victory_rules=VICTORY_RULES,
         loss_rules=LOSS_RULES)
 
@@ -76,9 +76,9 @@ def test_scissors_loses():
     '''
     Scissors pierde con Rock 
     '''
-    assert GameResult.Victory == assess_game(
-        agent_action=GameAction.Rock,
-        computer_action=GameAction.Scissors, 
+    assert GameResult.Loss == assess_game(
+        agent_action=GameAction.Scissors,
+        computer_action=GameAction.Rock, 
         victory_rules=VICTORY_RULES,
         loss_rules=LOSS_RULES)
 
@@ -87,8 +87,8 @@ def test_scissors_wins():
     '''
     Scissors gana a Paper 
     '''
-    assert GameResult.Loss == assess_game(
-        agent_action=GameAction.Paper,
-        computer_action=GameAction.Scissors, 
+    assert GameResult.Victory == assess_game(
+        agent_action=GameAction.Scissors,
+        computer_action=GameAction.Paper, 
         victory_rules=VICTORY_RULES,
         loss_rules=LOSS_RULES)
