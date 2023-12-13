@@ -17,19 +17,19 @@ def parse_match_by_player(match, player):
 
     return match
 
-def assess_game(agent_action, computer_action, victory_rules, loss_rules):
-    if computer_action in victory_rules[agent_action]:
+def assess_game(agent_a_action, agent_b_action, victory_rules, loss_rules):
+    if agent_b_action in victory_rules[agent_a_action]:
         return GameResult.Victory
-    elif computer_action in loss_rules[agent_action]:
+    elif agent_b_action in loss_rules[agent_a_action]:
         return GameResult.Loss
     else:
         return GameResult.Tie
 
-def play_round(agent_action_func, computer_action_func, victory_rules, loss_rules, records = []):
-    agent_action = agent_action_func(records, 0)
-    computer_action = computer_action_func(records, 1)
-    result = assess_game(agent_action, computer_action,victory_rules, loss_rules)
-    return (agent_action,computer_action, result)
+def play_round(agent_a_action_func, agent_b_action_func, victory_rules, loss_rules, records = []):
+    agent_a_action = agent_a_action_func(records, 0)
+    agent_b_action = agent_b_action_func(records, 1)
+    result = assess_game(agent_a_action, agent_b_action,victory_rules, loss_rules)
+    return (agent_a_action,agent_b_action, result)
 
 if __name__ == "__main__":
     from rps_agents import rps_agent_human, rps_agent_random
