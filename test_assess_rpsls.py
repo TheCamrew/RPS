@@ -193,7 +193,7 @@ def test_lizard_wins():
         loss_rules=LOSS_RULES)
 
 @pytest.mark.spock
-def test_lizard_loses():
+def test_spock_loses():
     '''
     Spock pierde con Rock 
     '''
@@ -212,7 +212,7 @@ def test_lizard_loses():
         loss_rules=LOSS_RULES)
 
 @pytest.mark.spock
-def test_lizard_wins():
+def test_spock_wins():
     '''
     Spock gana a Paper 
     '''
