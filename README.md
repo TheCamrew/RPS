@@ -18,6 +18,7 @@ Entorno de tareas | Observable| Axentes | Determinista | Episódico | Estático 
 
 ## Estructura del agente
 
+![](./doc/agent_structure.png)
 
 ## Conclusiones
 
