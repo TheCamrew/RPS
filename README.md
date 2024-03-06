@@ -41,9 +41,25 @@ El agente de predicción es igual de eficaz que en el modo de juego normal
 
 ## Requisitos
 
-- Python 3.12.0
+- Python 3.12.2
+- Numpy 1.26.4
+- Matplotlib 3.8.3
 - Pytest
-- Numpy
-- Matplotlib
+
+## Instalación
+
+- Crear directorio
+- Clonar el proyecto
+- Inicializa el entorno virtual y actívalo.
+```bash
+$ python3.12 -m venv venv
+$ source venv/bin/activate
+```
+- Instala las dependencias.
+```bash
+$ pip install -r requirements.in
+```
+
+
 
 ![](./doc/img.jpg)
