@@ -12,7 +12,7 @@ Este codigo permite enfrentar multiples agentes inteligentes y obtener graficos 
 
 ## Entorno de tareas
 
-Entorno de tareas | Observable| Axentes | Determinista | Episódico | Estático | Discreto | Conocido
+Entorno de tareas | Observable| Agentes | Determinista | Episódico | Estático | Discreto | Conocido
 :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
  RPS | Parcial | Multi | [Estocástico](#conclusiones) | [Episódico](#conclusiones) | Estático | Discreto | Conocido |
 
