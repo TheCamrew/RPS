@@ -6,9 +6,9 @@ Este codigo permite enfrentar multiples agentes inteligentes y obtener graficos 
 
 ## Uso
 
-- Añadir agentes en el archivo rps_agents.py y agregarlos en RPS_AGENTS
-- Elegir modo de juego y numero de partidas al ejecutar el main
-- Ejecutar
+- Añadir agentes en el archivo rps_agents.py y agregarlos en RPS_AGENTS (ya viene con agentes por defecto)
+- Ejecutar \_\_main_\_.py
+- Elegir modo de juego y numero de partidas
 
 ## Entorno de tareas
 
