@@ -52,12 +52,12 @@ El agente de predicción es igual de eficaz que en el modo de juego normal
 - Clonar el proyecto
 - Inicializa el entorno virtual y actívalo.
 ```bash
-$ python3.12 -m venv venv
-$ source venv/bin/activate
+python3.12 -m venv venv
+source venv/bin/activate
 ```
 - Instala las dependencias.
 ```bash
-$ pip install -r requirements.in
+pip install -r requirements.in
 ```
 
 
